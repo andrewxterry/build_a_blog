@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Andrew's LC101 Blog</h1>
+
+{% if posts|length == 0 %}
+<h2>No Blog posts yet</h2>
+{% else %}
+
+    {% for post in posts %}
+        <h4>{{blog.title}}</h4>
+        <p>{{blog.body}}</p>
+
+    {% endfor %}
+{% endif %}
+
+
+
+
+{% endblock %}
