@@ -25,8 +25,9 @@ def index():
     posts = Blog.query.all()
     title = Blog.title
     body = Blog.body
+    id = Blog.id
 
-    return render_template('home.html', posts=posts, title=title, body=body)
+    return render_template('home.html', posts=posts, title=title, body=body, id=id)
 
 
 @app.route('/new_post', methods=['POST', 'GET'])
@@ -35,12 +36,22 @@ def new_post():
         title = request.form['title']
         body = request.form['body']
 
+        if title == '' or body == '':
+            flash("Invalid blog entry", 'error')
+        else:
+            new_blog = Blog(title, body)
+            db.session.add(new_blog)
+            db.session.commit()
+            return redirect('/home')
+    return render_template('/new_post.html')
 
-        new_blog = Blog(title, body)
-        db.session.add(new_blog)
-        db.session.commit()
-    return redirect('/home')
-
+@app.route('/blog', methods=['GET'])
+def blog_id():
+    blog_id = request.args.get('id')
+    post = Blog.query.get(blog_id)
+      
+    
+    return render_template("blog.html", post=post)
 
 
 if __name__ == "__main__":
