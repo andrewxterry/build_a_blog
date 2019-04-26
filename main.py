@@ -36,9 +36,11 @@ def new_post():
         title = request.form['title']
         body = request.form['body']
 
-        if title == '' or body == '':
-            flash("Invalid blog entry", 'error')
-        else:
+        if title == '':
+            flash("Must have a blog title", 'error')
+        if body == '':
+            flash("Must have content in blog", "error")
+        elif title != '' and body != '':
             new_blog = Blog(title, body)
             db.session.add(new_blog)
             db.session.commit()
