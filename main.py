@@ -44,7 +44,9 @@ def new_post():
             new_blog = Blog(title, body)
             db.session.add(new_blog)
             db.session.commit()
-            return redirect('/home')
+            blog_id = str(new_blog.id)
+
+            return redirect("/blog?id=" + blog_id)
     return render_template('/new_post.html')
 
 @app.route('/blog', methods=['GET'])
