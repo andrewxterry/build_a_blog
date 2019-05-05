@@ -13,6 +13,7 @@
     {% for post in posts %}
         <h2><a href="/blog?id={{post.id}}">{{post.title}}</h2></a>
         <p>{{post.body}}</p>
+        <sub>Posted by: {{user.name}}</sub>
 
     {% endfor %}
 {% endif %}
