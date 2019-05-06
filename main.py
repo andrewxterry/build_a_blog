@@ -58,12 +58,8 @@ def register():
 
 def index():
     posts = Blog.query.all()
-    title = Blog.title
-    body = Blog.body
-    id = Blog.id
-    user = User.query.all()
 
-    return render_template('home.html', posts=posts, title=title, body=body, id=id, user=user)
+    return render_template('home.html', posts=posts)
 
 
 @app.route('/new_post', methods=['POST', 'GET'])
@@ -90,7 +86,7 @@ def new_post():
 def blog_id():
     blog_id = request.args.get('id')
     post = Blog.query.get(blog_id)
-    owner = User.query.filter_by(name=session['name']).first()
+    owner = User.query.filter_by(id = post.owner_id).first()
       
     
     return render_template("blog.html", post=post, owner=owner)
@@ -101,6 +97,14 @@ def logout():
     del session['name']
     return redirect ('/')
 
+@app.route('/user', methods=['GET'])
+def user_post():
+    user_id = request.args.get('id')
+    users = User.query.get(user_id)
+    posts = Blog.query.filter_by(owner_id = user_id).all()
+
+
+    return render_template('user.html', user=users, posts=posts)
 
 
 app.secret_key = "aosdijf"
